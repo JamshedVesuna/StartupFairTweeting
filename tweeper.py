@@ -1,17 +1,18 @@
 """
-In EventBrite, go to MyEvent>EventReports.
-Be sure to select Survey Answers and Company in the configured Columns
-Make sure there are no commas in the tweet!
+StartupFairTweeting
+The automatic tweeter for lazy people
 """
 import csv
 import tweepy
+from send_email import send_email
 
+TO = ''
+FROM = ''
+PASSWORD = ''
 
 auth = tweepy.OAuthHandler('','')
 auth.set_access_token('','')
-
 api = tweepy.API(auth)
-
 public_tweets = api.home_timeline()
 
 def convert_evnt_brt_to_twts(event_brite_csv):
@@ -75,6 +76,7 @@ def get_next_tweet(tweet_lst):
     for dic in tweet_lst:
         if not dic['already_tweeted']:
             return dic
+    return False
 
 def update_tweet_with_already_tweeted(tweet_lst, tweet_dict):
     """Updates tweet_lst that tweet_dict has already been tweeted
@@ -94,9 +96,27 @@ def update_tweet_with_already_tweeted(tweet_lst, tweet_dict):
         raise LookupError("Couldn't find tweet: {0}".format(tweet_str))
     return updated_tweet_lst
 
-convert_evnt_brt_to_twts('temp.csv')
-all_tweets = get_all_tweets('tweets.csv')
-next_tweet_dict = get_next_tweet(all_tweets)
-update_status(next_tweet_dict['tweet'])
-updated_all_tweets = update_tweet_with_already_tweeted(all_tweets, next_tweet_dict)
-write_all_tweets_csv(updated_all_tweets, 'tweets.csv')
+
+
+def tweet_away():
+    all_tweets = get_all_tweets('tweets.csv')
+    next_tweet_dict = get_next_tweet(all_tweets)
+    if not next_tweet_dict:
+        send_email(TO, FROM, PASSWORD, "Tweeper is Out of Tweets!",
+            "Oh no! There are no more tweets available")
+    else:
+        update_status(next_tweet_dict['tweet'])
+        updated_all_tweets = update_tweet_with_already_tweeted(all_tweets, next_tweet_dict)
+        write_all_tweets_csv(updated_all_tweets, 'tweets.csv')
+
+
+#convert_evnt_brt_to_twts('temp.csv')
+
+
+"""
+def main():
+    tweet_away()
+
+if __name__ == "__main__":
+    main()
+"""
