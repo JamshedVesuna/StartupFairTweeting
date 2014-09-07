@@ -2,6 +2,7 @@
 StartupFairTweeting
 The automatic tweeter for lazy people
 """
+
 import csv
 import tweepy
 from send_email import send_email
@@ -106,7 +107,8 @@ def tweet_away():
             "Oh no! There are no more tweets available")
     else:
         update_status(next_tweet_dict['tweet'])
-        updated_all_tweets = update_tweet_with_already_tweeted(all_tweets, next_tweet_dict)
+        updated_all_tweets = update_tweet_with_already_tweeted(
+            all_tweets, next_tweet_dict)
         write_all_tweets_csv(updated_all_tweets, 'tweets.csv')
 
 
