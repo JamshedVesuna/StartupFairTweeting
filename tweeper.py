@@ -4,7 +4,7 @@ The automatic tweeter for lazy people
 """
 
 import csv
-import tweepy
+import twitter  # pip install python-twitter
 from send_email import send_email
 
 # Email access for when tweets run out
@@ -15,14 +15,17 @@ PASSWORD = ''
 # Twitter app creds
 CONSUMER_KEY = ''
 CONSUMER_SECRET = ''
+APP_TOKEN = ''
+APP_SECRET = ''
 
 if not CONSUMER_KEY or not CONSUMER_SECRET:
     raise Exception('Please provide a consumer key and consumer secret')
 
-auth = tweepy.OAuthHandler('','')
-auth.set_access_token('','')
-api = tweepy.API(auth)
-public_tweets = api.home_timeline()
+if not APP_TOKEN or not APP_SECRET:
+    raise Exception('Please provide an app key and app secret')
+
+api = twitter.Api(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET,
+        access_token_key=APP_TOKEN, access_token_secret=APP_SECRET)
 
 def convert_evnt_brt_to_twts(event_brite_csv):
     """Read tweets from the EventBrite csv and write to EventBriteTweets.csv
@@ -77,7 +80,7 @@ def write_all_tweets_csv(tweet_lst, csvfile):
 
 def update_status(status):
     """Updates live Twitter status with the string status"""
-    api.update_status(status)
+    api.PostUpdate(status)
 
 
 def get_next_tweet(tweet_lst):
