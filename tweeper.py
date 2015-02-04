@@ -7,9 +7,17 @@ import csv
 import tweepy
 from send_email import send_email
 
+# Email access for when tweets run out
 TO = ''
 FROM = ''
 PASSWORD = ''
+
+# Twitter app creds
+CONSUMER_KEY = ''
+CONSUMER_SECRET = ''
+
+if not CONSUMER_KEY or not CONSUMER_SECRET:
+    raise Exception('Please provide a consumer key and consumer secret')
 
 auth = tweepy.OAuthHandler('','')
 auth.set_access_token('','')
