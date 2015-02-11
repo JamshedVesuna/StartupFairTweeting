@@ -9,9 +9,11 @@ incomplete_sentences = [
     'Excited to announce that {0} is coming to the Startup Fair!',
     'Glad to have {0} at the Startup Fair this year!',
     'Welcoming {0} to the UCB Startup Fair!',
-    '{0} just signed up for the U.C. Berkeley Starup fair!',
+    '{0} just signed up for the U.C. Berkeley Startup fair!',
     '{0} is coming to the UCB Startup Fair!',
     'Come check out {0} at the UCB Startup Fair!',
+    'Proud to have {0} at the UCB Startup Fair this semester!'
+    '{0} will be coming to the Berkeley Startup fair!'
     ]
 
 new = get_and_set_new_attendees()
